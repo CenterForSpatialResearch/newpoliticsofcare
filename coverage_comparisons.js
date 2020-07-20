@@ -771,7 +771,7 @@ function flatDeep(arr, d = 1) {
 };
 function PopulateDropDownList(features,map) {
            //Build an array containing Customer records.
-    console.log(features)
+//console.log(features)
     var sorted =features.sort(function(a,b){
         return parseInt(a.properties.GEOID) - parseInt(b.properties["GEOID"]);
         
@@ -801,7 +801,7 @@ function PopulateDropDownList(features,map) {
           ddlCustomers.options.add(option);
       }
     }
-    console.log(boundsDict)
+   // console.log(boundsDict)
    $('select').on("change",function(){
        if(this.innerHTML=="Contiguous 48"){
            map.flyTo({
@@ -813,7 +813,7 @@ function PopulateDropDownList(features,map) {
            });
        }else{
            var coords = boundsDict[this.value]
-           console.log(coords)
+           //console.log(coords)
            var bounds =  new mapboxgl.LngLatBounds(coords);
            map.fitBounds(bounds,{padding:20},{bearing:0})
        }

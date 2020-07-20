@@ -119,11 +119,11 @@ function loader(){
     }
     
     if(!localStorage.getItem("visted")){
-        console.log("first")
+       // console.log("first")
        myFunction();
        localStorage.setItem("visted",true);
     }else{
-        console.log("not first")
+       // console.log("not first")
         
     }
 
@@ -1269,7 +1269,7 @@ function strategyMenu(map,data){
             
             clickedId = d3.select(this).attr("id")
             pub.strategy = clickedId
-    console.log(clickedId)
+  //  console.log(clickedId)
             drawGrid(map,data)
             if(pub.coverage==undefined){
                  pub.coverage = "show_all"
@@ -1446,7 +1446,7 @@ function PopulateDropDownList(features,map) {
            });
        }else{
            var coords = boundsDict[this.value]
-           console.log(coords)
+           //console.log(coords)
            var bounds =  new mapboxgl.LngLatBounds(coords);
            map.fitBounds(bounds,{padding:20},{bearing:0})
        }
@@ -1595,7 +1595,7 @@ function drawTable(ndx,svi){
           d3.select('#download')
               .attr("cursor","pointer")
               .on('click', function() {
-                  console.log("download")
+                  //console.log("download")
                   var data = tDim.top(Infinity);
                   if(d3.select('#download-type input:checked').node().value==='table') {
                       data = data.sort(function(a, b) {
@@ -1842,7 +1842,7 @@ function barChart(divName, column,ndx,height,width){
         return parseFloat(d[column])
     });
   
-      console.log([max,min])
+   //   console.log([max,min])
 
     var columnGroup = columnDimension.group();
         
