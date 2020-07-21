@@ -168,8 +168,8 @@ function drawGrid(map,data){
     
     var gridHeight = 250
     var gridWidth = 220
-    d3.select("#gridHover").remove()
-    d3.select("#colorGrid").append("div").attr("id","gridHover")    
+    // d3.select("#gridHover").remove()
+   //  d3.select("#colorGrid").append("div").attr("id","gridHover")
     var colorGridSvg = d3.select("#colorGrid").append("svg").attr("width",gridWidth).attr("height",gridHeight)
         
     var gridSize = 40
