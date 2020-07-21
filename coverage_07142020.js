@@ -168,13 +168,15 @@ function drawGrid(map,data){
     
     var gridHeight = 250
     var gridWidth = 220
+    d3.select("#colorGrid").append("div").attr("id","gridHover")    
     var colorGridSvg = d3.select("#colorGrid").append("svg").attr("width",gridWidth).attr("height",gridHeight)
+        
     var gridSize = 40
         
     var rScale = d3.scaleLinear().domain([0,800]).range([10,gridSize-5])
         
-colorGridSvg.append("rect").attr("width",gridSize/2).attr("height",gridSize/2).attr("x",10).attr("y",230).attr("fill","#ddd")
-colorGridSvg.append("text").attr("x",35).attr("y",244).text("Counties with no recorded cases")
+colorGridSvg.append("rect").attr("width",gridSize/2).attr("height",gridSize/2).attr("x",10).attr("y",200).attr("fill","#ddd")
+colorGridSvg.append("text").attr("x",35).attr("y",214).text("Counties with no recorded cases")
         
         var clicked = false
         
@@ -203,7 +205,7 @@ colorGridSvg.append("text").attr("x",35).attr("y",244).text("Counties with no re
             return rScale(bins[i].length)
         })
         .attr('fill',function(d){return d})
-        .attr("transform","translate(80,0)")
+        .attr("transform","translate(80,-20)")
         .attr("cursor","pointer")
         .on("mouseover",function(d,i){
             var groupName = "_"+(i+1)            
@@ -215,12 +217,12 @@ colorGridSvg.append("text").attr("x",35).attr("y",244).text("Counties with no re
             var x = event.clientX;     // Get the horizontal coordinate
             var y = event.clientY;             
              d3.select("#gridHover").style("visibility","visible")
-             // .style("left",(x+20)+"px")
- //             .style("top",y+"px")
-                .style("left","1135px")
-              .style("top","155px")
-            .style('font-size','11px')
-            .style("width","180px")
+             /// / .style("left",(x+20)+"px")
+//  //             .style("top",y+"px")
+//                 .style("left","1135px")
+//               .style("top","155px")
+//             .style('font-size','11px')
+//             .style("width","180px")
             var gP = ["low","med","high"][Math.floor((i)/3)]
             var gC = ["low","med","high"][i%3]
             d3.select("#gridHover").html(pub.histo[i].length+ " counties have "+ gP+" priority and "+gC+" unmet need")
@@ -282,12 +284,12 @@ colorGridSvg.append("text").attr("x",35).attr("y",244).text("Counties with no re
   //         .attr("text-anchor","middle")
   //         .attr("transform","translate(100,0)")
     
-    colorGridSvg.append("text").text("% OF UNMET NEED").attr("x",75).attr("y",200).style("font-weight","bold").style("font-size","12px")
-    colorGridSvg.append("text").text("less").attr("x",80).attr("y",180)
-    colorGridSvg.append("text").text("more").attr("x",170).attr("y",180)
+    colorGridSvg.append("text").text("% OF UNMET NEED").attr("x",75).attr("y",180).style("font-weight","bold").style("font-size","12px")
+    colorGridSvg.append("text").text("less").attr("x",80).attr("y",160)
+    colorGridSvg.append("text").text("more").attr("x",170).attr("y",160)
       
-    colorGridSvg.append("text").text("high").attr("x",50).attr("y",40).attr("text-anchor","end")
-    colorGridSvg.append("text").text("low").attr("x",50).attr("y",150).attr("text-anchor","end")
+    colorGridSvg.append("text").text("high").attr("x",50).attr("y",20).attr("text-anchor","end")
+    colorGridSvg.append("text").text("low").attr("x",50).attr("y",130).attr("text-anchor","end")
      
       var measureDisplayTextShort = {
           percentage_scenario_high_demand:"new cases",
@@ -297,11 +299,11 @@ colorGridSvg.append("text").attr("x",35).attr("y",244).text("Counties with no re
           percentage_scenario_SVI_hotspot:"SVI*(new cases/pop)"
       }
      
-    colorGridSvg.append("text").text(measureDisplayTextShort[pub.strategy].toUpperCase()).attr("x",10).attr("y",100).style("font-size","12px")
-        .attr("transform","rotate(-90 10,100)").style("font-weight","bold")
+    colorGridSvg.append("text").text(measureDisplayTextShort[pub.strategy].toUpperCase()).attr("x",10).attr("y",80).style("font-size","12px")
+        .attr("transform","rotate(-90 10,80)").style("font-weight","bold")
           .attr("text-anchor","middle")
-    colorGridSvg.append("text").text("PRIORITY SCORE").attr("x",25).attr("y",100).style("font-size","12px")
-        .attr("transform","rotate(-90 25,100)").style("font-weight","bold")
+    colorGridSvg.append("text").text("PRIORITY SCORE").attr("x",25).attr("y",80).style("font-size","12px")
+        .attr("transform","rotate(-90 25,80)").style("font-weight","bold")
           .attr("text-anchor","middle")
       
       
@@ -313,7 +315,7 @@ colorGridSvg.append("text").attr("x",35).attr("y",244).text("Counties with no re
         .append('text')
         .text(function(d,i){return cStops[i].join("-");})
         .attr("x",function(d,i){return i*gridSize+gridSize/2})
-        .attr("y",160)
+        .attr("y",140)
         .attr("column",function(d,i){return i})
         .attr("cursor","pointer")
         .attr("text-anchor","middle")
@@ -355,7 +357,7 @@ colorGridSvg.append("text").attr("x",35).attr("y",244).text("Counties with no re
               return i
           })
         .attr("text-anchor","end")
-        .attr("transform","translate(75,0)")
+        .attr("transform","translate(75,-20)")
         .attr("cursor","pointer")
           .on("mouseover",function(d,i){
               var row = d3.select(this).attr('row')
