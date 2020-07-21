@@ -845,7 +845,7 @@ mapboxgl: mapboxgl
                  _6:"Medium Priority Score, High % needs unmet",
                  _7:"High Priority Score, Low % needs unmet",
                  _8:"High Priority Score, Medium % needs unmet",
-                 _1:"High Priority Score, High % needs unmet"
+                 _9:"High Priority Score, High % needs unmet"
              }
              
              var currentGroup = feature.properties[currentSelection +"_group"]
