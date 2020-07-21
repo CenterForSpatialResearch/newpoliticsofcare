@@ -215,10 +215,12 @@ colorGridSvg.append("text").attr("x",35).attr("y",244).text("Counties with no re
             var x = event.clientX;     // Get the horizontal coordinate
             var y = event.clientY;             
              d3.select("#gridHover").style("visibility","visible")
-             .style("left",(x+20)+"px")
-             .style("top",y+"px") 
-            
-            
+             // .style("left",(x+20)+"px")
+ //             .style("top",y+"px")
+                .style("left","1135px")
+              .style("top","155px")
+            .style('font-size','11px')
+            .style("width","180px")
             var gP = ["low","med","high"][Math.floor((i)/3)]
             var gC = ["low","med","high"][i%3]
             d3.select("#gridHover").html(pub.histo[i].length+ " counties have "+ gP+" priority and "+gC+" unmet need")
@@ -485,34 +487,34 @@ function ready(counties,outline,centroids,modelData,timeStamp,states){
     var combinedGeojson = combineGeojson(dataByFIPS,counties)
     pub.all = combinedGeojson
     
-//    console.log(combinedGeojson)
+    //    console.log(combinedGeojson)
     
-    drawMap(combinedGeojson,outline)
+        drawMap(combinedGeojson,outline)
     
-   // drawReservations(aiannh)
+       // drawReservations(aiannh)
     
-    var formattedData = []
-    for(var i in combinedGeojson.features){
-        formattedData.push(combinedGeojson.features[i].properties)
-    }
-    // d3.select('#download')
-//         .attr("cursor","pointer")
-//         .on('click', function() {
-//             var data = formattedData
-//             var today = new Date();
-//             var dd = String(today.getDate()).padStart(2, '0');
-//             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-//             var yyyy = today.getFullYear();
-//
-//             today = mm + '_' + dd + '_' + yyyy;
-//
-//             var blob = new Blob([d3.csvFormat(data)], {type: "text/csv;charset=utf-8"});
-//             saveAs(blob, "politics_of_care_data_"+today+".csv");
-//         });
-//
-//    
-    //drawHistogram(pub.strategy,pub.coverage)
-};
+        var formattedData = []
+        for(var i in combinedGeojson.features){
+            formattedData.push(combinedGeojson.features[i].properties)
+        }
+        // d3.select('#download')
+    //         .attr("cursor","pointer")
+    //         .on('click', function() {
+    //             var data = formattedData
+    //             var today = new Date();
+    //             var dd = String(today.getDate()).padStart(2, '0');
+    //             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    //             var yyyy = today.getFullYear();
+    //
+    //             today = mm + '_' + dd + '_' + yyyy;
+    //
+    //             var blob = new Blob([d3.csvFormat(data)], {type: "text/csv;charset=utf-8"});
+    //             saveAs(blob, "politics_of_care_data_"+today+".csv");
+    //         });
+    //
+    //    
+        //drawHistogram(pub.strategy,pub.coverage)
+}
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -977,9 +979,11 @@ function drawSmallMapKey(svg){
 }
 function subMap(detailMap, center,geometry,countyId){    
     var coordinates = geometry.coordinates[0]
-    
+    console.log(countyId)
     var bounds = getMaxMin(flatDeep(coordinates,Infinity))
     var mapboxBounds = new mapboxgl.LngLatBounds(bounds)
+    // var filter = ["==","COUNTY",String(countyId)]
+    // detailMap.setFilter("tractSVI",filter)
     
     // var bounds = coordinates.reduce(function(bounds, coord) {
  //            return bounds.extend(coord);
@@ -1409,7 +1413,6 @@ function flatDeep(arr, d = 1) {
 };
 function PopulateDropDownList(features,map) {
            //Build an array containing Customer records.
-    console.log(features)
     var sorted =features.sort(function(a,b){
         return parseInt(a.properties.GEOID) - parseInt(b.properties["GEOID"]);
         
