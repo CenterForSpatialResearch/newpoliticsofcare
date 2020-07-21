@@ -1423,7 +1423,9 @@ function PopulateDropDownList(features,map) {
  
     var option = document.createElement("OPTION");
     option.innerHTML = "Contiguous 48"
-    option.value = "-93,37,4";
+    option.value = "C48";
+        option.id = "Contiguous 48"
+    
     ddlCustomers.options.add(option);
     //Add the Options to the DropDownList.
     var boundsDict = {}
@@ -1439,21 +1441,33 @@ function PopulateDropDownList(features,map) {
        boundsDict[sorted[i].properties.GEOID]=getMaxMin(coordinates)
         //Set CustomerId in Value part.
         option.value = sorted[i].properties["GEOID"]
+        option.id = sorted[i].properties.NAME
         //Add the Option element to DropDownList.
         if(sorted[i].properties.NAME!="United States Virgin Islands"&& sorted[i].properties.NAME!="American Samoa"&& sorted[i].properties.NAME!="Commonwealth of the Northern Mariana Islands"&& sorted[i].properties.NAME!="Guam"){
           ddlCustomers.options.add(option);
       }
     }
    $('select').on("change",function(){
-       if(this.innerHTML=="Contiguous 48"){
+       console.log(this.value)
+       if(this.value=="C48"){
+           console.log("ok")
            map.flyTo({
-               zoom:4,
-               center: [-93,37],
+               zoom:3.8,
+               center: [-94,37],
                speed: 0.8, // make the flying slow
                curve: 1
                //essential: true // this animation is considered essential with respect to prefers-reduced-motion
            });
-       }else{
+       }else if(this.value=="02"){
+           map.flyTo({
+               zoom:4,
+               center: [-147.653,63.739],
+               speed: 0.8, // make the flying slow
+               curve: 1
+               //essential: true // this animation is considered essential with respect to prefers-reduced-motion
+           });
+       }
+       else{
            var coords = boundsDict[this.value]
            //console.log(coords)
            var bounds =  new mapboxgl.LngLatBounds(coords);
