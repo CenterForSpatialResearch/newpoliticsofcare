@@ -776,7 +776,7 @@ mapboxgl: mapboxgl
     
      map.on('mousemove', 'counties', function(e) {
          var feature = e.features[0]
-        console.log(map.getZoom())
+        //console.log(map.getZoom())
          
        //  console.log(feature["properties"])
          //console.log(feature)
@@ -977,10 +977,14 @@ function drawSmallMapKey(svg){
 }
 function subMap(detailMap, center,geometry,countyId){    
     var coordinates = geometry.coordinates[0]
-    var bounds = coordinates.reduce(function(bounds, coord) {
-            return bounds.extend(coord);
-        }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
-        
+    
+    var bounds = getMaxMin(flatDeep(coordinates,Infinity))
+    var mapboxBounds = new mapboxgl.LngLatBounds(bounds)
+    
+    // var bounds = coordinates.reduce(function(bounds, coord) {
+ //            return bounds.extend(coord);
+ //        }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+ //     console.log(bounds)
         // detailMap.flyTo(
    //          {
    //
@@ -991,7 +995,7 @@ function subMap(detailMap, center,geometry,countyId){
    //
    //          }
    //      )
-             detailMap.fitBounds(bounds, {
+             detailMap.fitBounds(mapboxBounds, {
                  padding: 5,
                  animate: false
              })
