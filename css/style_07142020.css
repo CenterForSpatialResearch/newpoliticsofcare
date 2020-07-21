@@ -73,7 +73,7 @@ font-family: 'Hammersmith One', sans-serif;}
 #mapPopup{
     margin:0px;
     width:200px;
-    height:350px;
+    height:500px;
     border:1px solid #000;
     padding:10px;
     position:absolute;
@@ -132,7 +132,10 @@ font-family: 'Hammersmith One', sans-serif;}
 #coverageDropdown{
    margin-top:5px;
 }
-
+.highlightNumber{
+    font-weight:bold;
+    color:red;
+}
 /* for charts and maps */
  #map{
 	 position:fixed;
