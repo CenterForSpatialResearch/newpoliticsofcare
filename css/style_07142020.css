@@ -128,13 +128,19 @@ font-family: 'Hammersmith One', sans-serif;}
     height:20px;
 /*    background-color:rgba(255,255,255,.9);
 */}
-
+    .alignRight{
+        text-align:right;        
+    }
+    table{
+        width:200px;
+    }
 #coverageDropdown{
    margin-top:5px;
 }
 .highlightNumber{
     font-weight:bold;
     color:red;
+    text-align:right;
 }
 /* for charts and maps */
  #map{

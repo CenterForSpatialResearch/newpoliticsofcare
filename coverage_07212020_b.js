@@ -857,18 +857,49 @@ mapboxgl: mapboxgl
                      +"Population: "+numberWithCommas(population)+"<br>"
                      +"There are no cases for this county in this dataset currently."
              }else{
-                 var displayString = "<span class=\"popupTitle\">"+countyName+"</span><br>"
-                         +"<span class=\"highlightNumber\">"+currentGroupDescription+"</span><br>"
-                         +"Population: "+numberWithCommas(population)+"<br>"
-                         +"SVI: "+SVI+"<br>"
-                         +"New cases in the past 14 days: "+cases+"<br>"
-                         +"Total CHWs needed: "+chwNeed+"<br><br>"
-                         +"Total CHWs assigned at "+pub.coverage.replace("base_case_capacity_","") 
-                         +" CHW/10,000 residents: <span class=\"highlightNumber\">"+chwAssigned+"</span><br>"
-                         +"% Need <u>unmet</u>: <span class=\"highlightNumber\">"
-                         +Math.round(100-currentSelectionCoverage)+"%</span> <br><br>"
-                         +"Total CHWs assigned with state’s current resources:: <span class=\"highlightNumber\">"+Math.round(actualCoverage/100*chwNeed)+"</span><br>"
-                         +"% Need <u>unmet</u>: <span class=\"highlightNumber\">"+(100-Math.round(actualCoverage))+"%</span><br>"
+                 var displayString = "<table><tr>"
+                 +"<span class=\"popupTitle\">"+countyName+"</span><br>"
+                 +"<span class=\"highlightNumber\">"+currentGroupDescription+"</span<br>"
+                 +"</tr>"
+                 +"<tr>"
+                 +"<td>Population</td>"+"<td class=\" alignRight\">"+numberWithCommas(population)+"</td>"
+                 +"</tr>"
+                 +"<tr>"
+                 +"<td>SVI</td>"+"<td class=\"alignRight\">"+SVI+"</td>"
+                 +"</tr>"
+                 +"<tr>"
+                 +"<td>New cases(past 14 days)</td>"+"<td class=\"alignRight\">"+cases+"</td>"
+                 +"</tr>"
+                 +"<tr>"
+                 +"<td>Total CHWs needed</td>"+"<td class=\"alignRight\">"+chwNeed+"</td>"
+                 +"</tr>"
+                 +"<tr><td> </td></tr><tr><td> </td></tr>"
+                 +"<tr>"
+                 +"<td>Total CHWs assigned at "+pub.coverage.replace("base_case_capacity_","")
+                          +" CHW/10,000 residents  </td>"+"<td class=\"alignRight highlightNumber\"><strong><br>"+chwAssigned+"</strong></td>"
+                 +"</tr>"
+                 +"<tr>"
+                 +"<td>% need <u>unmet</u></td>"+"<td class=\"alignRight highlightNumber\"><strong>"+Math.round(100-currentSelectionCoverage)+"%</strong></td>"
+                 +"</tr>"
+                 +"<tr><td> </td></tr><tr><td> </td></tr>"
+                 +"<tr>"
+                 +"<td>Total CHWs assigned with state’s current resources</td>"+"<td class=\"alignRight highlightNumber\"><strong><br>"+Math.round(actualCoverage/100*chwNeed)+"</strong></td>"
+                 +"</tr>"
+                 +"<tr><td>% Need <u>unmet</u></td>"+"<td class=\"alignRight highlightNumber\"><strong>"+(100-Math.round(actualCoverage))+"%</strong></td></tr>"
+                 +"</table>"
+                 
+                 // var displayString = "<span class=\"popupTitle\">"+countyName+"</span><br>"
+//                          +"<span class=\"highlightNumber\">"+currentGroupDescription+"</span><br>"
+//                          +"Population: "+numberWithCommas(population)+"<br>"
+//                          +"SVI: "+SVI+"<br>"
+//                          +"New cases in the past 14 days: "+cases+"<br>"
+//                          +"Total CHWs needed: "+chwNeed+"<br><br>"
+//                          +"Total CHWs assigned at "+pub.coverage.replace("base_case_capacity_","")
+//                          +" CHW/10,000 residents: <span class=\"highlightNumber\">"+chwAssigned+"</span><br>"
+//                          +"% Need <u>unmet</u>: <span class=\"highlightNumber\">"
+//                          +Math.round(100-currentSelectionCoverage)+"%</span> <br><br>"
+//                          +"Total CHWs assigned with state’s current resources: <span class=\"highlightNumber\">"+Math.round(actualCoverage/100*chwNeed)+"</span><br>"
+//                          +"% Need <u>unmet</u>: <span class=\"highlightNumber\">"+(100-Math.round(actualCoverage))+"%</span><br>"
                      
              }
              var needsMetString = currentSelectionCoverage+"% of needs met</strong>"
@@ -880,7 +911,7 @@ mapboxgl: mapboxgl
              
            
           
-             d3.select("#popLabel").html(displayString+"<br><br>SVI by Census Tract:")
+             d3.select("#popLabel").html(displayString+"<br>SVI by Census Tract:")
             var gradientSVG = d3.select("#popLabel").append("svg")
         .attr("width",180).attr('height',40)
              drawSmallMapKey(gradientSVG)
