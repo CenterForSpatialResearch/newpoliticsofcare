@@ -979,7 +979,7 @@ function drawSmallMapKey(svg){
 }
 function subMap(detailMap, center,geometry,countyId){    
     var coordinates = geometry.coordinates[0]
-    console.log(countyId)
+   // console.log(countyId)
     var bounds = getMaxMin(flatDeep(coordinates,Infinity))
     var mapboxBounds = new mapboxgl.LngLatBounds(bounds)
     // var filter = ["==","COUNTY",String(countyId)]
