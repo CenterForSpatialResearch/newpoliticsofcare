@@ -810,8 +810,10 @@ mapboxgl: mapboxgl
              if(x+200>w){
                  x = x-280
              }
-             if(y+400>h){
-                 y= y-320
+             if(y+500>h){
+                 y= h-520
+             }else if(y-500<150){
+                 y = 150
              }
              
               d3.select("#mapPopup").style("visibility","visible")
