@@ -27,7 +27,8 @@ var pub = {
     all:null,
     centroids:null,
     histo:null,
-    pair:"hotspotXXXSVI_hotspot"
+    pair:"hotspotXXXSVI_hotspot",
+    states:null
 }
 var highlightColor = "#DF6D2A"
 var bghighlightColor = "gold"
@@ -132,6 +133,7 @@ var allData = d3.csv("County_level_coverage_for_all_policies_and_different_base_
 var allData =d3.csv("https://raw.githubusercontent.com/CenterForSpatialResearch/allocation_chw/master/Output/County_level_coverage_for_all_policies_and_different_base_case_capacity.csv")
 var timeStamp = d3.csv("https://raw.githubusercontent.com/CenterForSpatialResearch/allocation_chw/master/Output/time_stamp.csv")
 //var prioritySet = ["priority_high_demand","priority_SVI_hotspot","priority_SVI_pop","priority_hotspot"]
+var states = d3.json("simplestates.geojson")
 
 var coverageSet = []
 var coverageDisplayText = {show_all:"Hide Coverage Info"}
@@ -152,9 +154,9 @@ for(var c = 1; c<=8; c++){
      percentage_scenario_SVI_pop:"SVI",
      percentage_scenario_SVI_hotspot:"SVI + new cases per capita"
  }
-Promise.all([counties,aiannh,countyCentroids,allData,timeStamp])
+Promise.all([counties,aiannh,countyCentroids,allData,timeStamp,states])
 .then(function(data){
-    ready(data[0],data[1],data[2],data[3],data[4])
+    ready(data[0],data[1],data[2],data[3],data[4],data[5])
 })
 
 var lineOpacity = {stops:[[0,1],[100,0.3]]}
@@ -167,12 +169,13 @@ var fillColor = {
             [.005,"#6EAFC3"],
             [.03,"#3983A8"],
             [.1,"#02568B"]]
-        }
+}
 
 var centroids = null
 var latestDate = null
 
-function ready(counties,aiannh,centroids,modelData,timeStamp){
+function ready(counties,aiannh,centroids,modelData,timeStamp,states){
+    pub.states = states
     d3.select("#date").html("Model run as of "+timeStamp["columns"][1])
     var processed = turnToDictFIPS(modelData,"County_FIPS")
     var comparisonsKeys = processed[1]
@@ -513,6 +516,7 @@ var bounds = [[-130, 26],
          colorMap(map,pub.pair)
          d3.select("#"+pub.pair).attr("fill","gold")
          drawKey(pub.pair)
+         PopulateDropDownList(pub.states.features,map) 
          
          
          //var color = {property:"priority_high_demand",stops:[[-1,0],[0,1]]}
@@ -528,7 +532,7 @@ var bounds = [[-130, 26],
      
          map.setPaintProperty("counties", 'fill-opacity',1)
         // map.setPaintProperty("counties", 'fill-color',fillColor)
-              var matchString = ["match",["get",pub.strategy+"_"+pub.coverage+"_group"]].concat(groupColorDict)
+              //var matchString = ["match",["get",pub.strategy+"_"+pub.coverage+"_group"]].concat(groupColorDict)
               //console.log(matchString)
               
              //  map.setPaintProperty("counties", 'fill-color', matchString)  
@@ -736,6 +740,7 @@ function zoomToBounds(mapS){
         [-50, 49.500739]);
     map.fitBounds(bounds,{padding:20},{bearing:0})
 }
+
 function getMaxMin(coords){
     var maxLat = -999
     var minLat = 0
@@ -771,7 +776,6 @@ function flatDeep(arr, d = 1) {
 };
 function PopulateDropDownList(features,map) {
            //Build an array containing Customer records.
-//console.log(features)
     var sorted =features.sort(function(a,b){
         return parseInt(a.properties.GEOID) - parseInt(b.properties["GEOID"]);
         
@@ -780,7 +784,9 @@ function PopulateDropDownList(features,map) {
  
     var option = document.createElement("OPTION");
     option.innerHTML = "Contiguous 48"
-    option.value = "-93,37,4";
+    option.value = "C48";
+        option.id = "Contiguous 48"
+    
     ddlCustomers.options.add(option);
     //Add the Options to the DropDownList.
     var boundsDict = {}
@@ -796,22 +802,33 @@ function PopulateDropDownList(features,map) {
        boundsDict[sorted[i].properties.GEOID]=getMaxMin(coordinates)
         //Set CustomerId in Value part.
         option.value = sorted[i].properties["GEOID"]
+        option.id = sorted[i].properties.NAME
         //Add the Option element to DropDownList.
         if(sorted[i].properties.NAME!="United States Virgin Islands"&& sorted[i].properties.NAME!="American Samoa"&& sorted[i].properties.NAME!="Commonwealth of the Northern Mariana Islands"&& sorted[i].properties.NAME!="Guam"){
           ddlCustomers.options.add(option);
       }
     }
-   // console.log(boundsDict)
    $('select').on("change",function(){
-       if(this.innerHTML=="Contiguous 48"){
+       console.log(this.value)
+       if(this.value=="C48"){
+           console.log("ok")
            map.flyTo({
-               zoom:4,
-               center: [-93,37],
+               zoom:3.8,
+               center: [-94,37],
                speed: 0.8, // make the flying slow
                curve: 1
                //essential: true // this animation is considered essential with respect to prefers-reduced-motion
            });
-       }else{
+       }else if(this.value=="02"){
+           map.flyTo({
+               zoom:4,
+               center: [-147.653,63.739],
+               speed: 0.8, // make the flying slow
+               curve: 1
+               //essential: true // this animation is considered essential with respect to prefers-reduced-motion
+           });
+       }
+       else{
            var coords = boundsDict[this.value]
            //console.log(coords)
            var bounds =  new mapboxgl.LngLatBounds(coords);
