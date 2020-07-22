@@ -130,7 +130,8 @@ var aiannh = d3.json("indian_reservations.geojson")
 var allData = d3.csv("County_level_coverage_for_all_policies_and_different_base_case_capacity_07152020.csv")
 //var allData = d3.csv("https://media.githubusercontent.com/media/CenterForSpatialResearch/allocating_covid/master/Output/County_level_coverage_for_all_policies_and_different_base_case_capacity.csv")
 
-var allData =d3.csv("https://raw.githubusercontent.com/CenterForSpatialResearch/allocation_chw/master/Output/County_level_coverage_for_all_policies_and_different_base_case_capacity.csv")
+//var allData =d3.csv("https://raw.githubusercontent.com/CenterForSpatialResearch/allocation_chw/master/Output/County_level_coverage_for_all_policies_and_different_base_case_capacity.csv")
+var allData = d3.csv("https://raw.githubusercontent.com/CenterForSpatialResearch/newpoliticsofcare/master/County_level_coverage_for_all_policies_and_different_base_case_capacity_WithCurrent.csv")
 var timeStamp = d3.csv("https://raw.githubusercontent.com/CenterForSpatialResearch/allocation_chw/master/Output/time_stamp.csv")
 //var prioritySet = ["priority_high_demand","priority_SVI_hotspot","priority_SVI_pop","priority_hotspot"]
 var states = d3.json("simplestates.geojson")
@@ -809,9 +810,9 @@ function PopulateDropDownList(features,map) {
       }
     }
    $('select').on("change",function(){
-       console.log(this.value)
+      // console.log(this.value)
        if(this.value=="C48"){
-           console.log("ok")
+        //   console.log("ok")
            map.flyTo({
                zoom:3.8,
                center: [-94,37],
