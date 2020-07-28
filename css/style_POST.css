@@ -143,6 +143,9 @@ font-family: 'Hammersmith One', sans-serif;}
     table{
         width:200px;
     }
+#coverage{
+    display:none;
+}
 #coverageDropdown{
    margin-top:5px;
 }

@@ -241,6 +241,7 @@ var centroids = null
 var latestDate = null
 
 function ready(counties,outline,centroids,modelData,timeStamp,states){
+    
     pub.states = states
    loader()
      d3.select("#date").html("Model run as of "+timeStamp["columns"][1])
@@ -472,7 +473,7 @@ function drawMap(data,outline){
     map.dragRotate.disable();
          
          
-         drawGrid(map,data) 
+       //  drawGrid(map,data) 
          //map.setLayoutProperty("mapbox-satellite", 'visibility', 'none');
          
          map.addSource("counties",{
@@ -1110,9 +1111,12 @@ function colorWithCoverage(map){
     var matchString = ["match",["get",pub.strategy+"_"+pub.coverage+"_group"]].concat(groupColorDict)
     map.setPaintProperty("counties", 'fill-color', matchString)
     drawGrid(map,pub.all)    
+    d3.select("#coverage").style("display","block")
+    
 }
 
 function colorWithoutCoverage(map){
+    d3.select("#coverage").style("display","none")
     var matchString = ["match",
                     ["get",pub.strategy.replace("percentage_scenario_","")+"_group"],
                     "_0","rgba(19,182,163, 1)",
@@ -1170,7 +1174,6 @@ function drawGridWithoutCoverage(map){
                 .attr("transform","translate(100,-20)")
                 .on("mouseover",function(d,i){
                     var groupName = "_"+(i)            
-                    console.log(pub.strategy.replace("percentage_scenario_","")+"_group")
                     var filter = ["==",pub.strategy.replace("percentage_scenario_","")+"_group",groupName]
                     map.setFilter("counties",filter)
                     d3.selectAll(".gridCell").attr("opacity",.3)
