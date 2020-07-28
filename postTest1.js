@@ -305,7 +305,7 @@ function ready(counties,outline,centroids,modelData,timeStamp,states){
     SVIMap()
 }
 function SVIMap(){
-    d3.select("#SVIMapFrame").style("width",(window.innerWidth/2)+"px")
+    d3.select("#SVIMapFrame").style("width",(window.innerWidth)+"px")
           .style("height",window.innerHeight+"px")
     mapboxgl.accessToken = 	mapboxgl.accessToken = 'pk.eyJ1IjoiYzRzci1nc2FwcCIsImEiOiJja2J0ajRtNzMwOHBnMnNvNnM3Ymw5MnJzIn0.fsTNczOFZG8Ik3EtO9LdNQ';
 
@@ -580,6 +580,7 @@ function drawMap(data,outline){
             center: [pub.SVIcenter.lng,pub.SVIcenter.lat]
         })
         d3.select("#SVIMap").style("display","block")
+        d3.select("#SVIText").html("COUNTY: "+pub.SVIFIPS+"<br>Id vel atqui commodo bonorum. Sit eu menandri percipitur adversarium, quis error nostrud an sea, cu paulo mundi his. Vel ut iusto omittam temporibus, sea nullam tamquam periculis ea. Te cum brute malorum praesent, eu sed vero omittam consulatu, usu illum deserunt no.")
         
     })
      map.on('mousemove', 'counties', function(e) {
