@@ -571,6 +571,9 @@ function drawMap(data,outline){
       d3.select("#mapPopup").append("div").attr("id","popMap")
     
     map.on('click', 'counties', function(e) {
+        
+        window.open("sviMap.html", "_blank"); 
+        
         var feature = e.features[0]
         pub.SVIFIPS = feature.properties.FIPS
         pub.sviZoom = 10
@@ -580,7 +583,7 @@ function drawMap(data,outline){
             center: [pub.SVIcenter.lng,pub.SVIcenter.lat]
         })
         d3.select("#SVIMap").style("display","block")
-        d3.select("#SVIText").html("COUNTY: "+pub.SVIFIPS+"<br>Id vel atqui commodo bonorum. Sit eu menandri percipitur adversarium, quis error nostrud an sea, cu paulo mundi his. Vel ut iusto omittam temporibus, sea nullam tamquam periculis ea. Te cum brute malorum praesent, eu sed vero omittam consulatu, usu illum deserunt no.")
+        d3.select("#SVIText").html("SVI Census Tract Level Map TEMPORARY<br><br>COUNTY: "+pub.SVIFIPS+"<br>Id vel atqui commodo bonorum. Sit eu menandri percipitur adversarium, quis error nostrud an sea, cu paulo mundi his. Vel ut iusto omittam temporibus, sea nullam tamquam periculis ea. Te cum brute malorum praesent, eu sed vero omittam consulatu, usu illum deserunt no.")
         
     })
      map.on('mousemove', 'counties', function(e) {
