@@ -1,6 +1,3 @@
-$(document).ready(function() {
-    $('.js-example-basic-single').select2();
-});
 
 //"F_THEME1","F_THEME2", "F_THEME3", "F_THEME4"
 var map;
@@ -28,7 +25,10 @@ var pub = {
     centroids:null,
     histo:null,
     states:null,
-    univar:true
+    univar:true,
+    SVIFIPS:null,
+    sviZoom:10,
+    SVIcenter:null
 }
 var highlightColor = "#DF6D2A"
 var bghighlightColor = "gold"
@@ -241,7 +241,9 @@ var centroids = null
 var latestDate = null
 
 function ready(counties,outline,centroids,modelData,timeStamp,states){
-    
+    d3.select("#closeMap").on("click",function(){
+        d3.select("#SVIMap").style("display","none")
+    })
     pub.states = states
    loader()
      d3.select("#date").html("Model run as of "+timeStamp["columns"][1])
@@ -299,8 +301,30 @@ function ready(counties,outline,centroids,modelData,timeStamp,states){
             pub.univar= false
         }
     })
+    
+    SVIMap()
 }
+function SVIMap(){
+    d3.select("#SVIMapFrame").style("width",(window.innerWidth/2)+"px")
+          .style("height",window.innerHeight+"px")
+    mapboxgl.accessToken = 	mapboxgl.accessToken = 'pk.eyJ1IjoiYzRzci1nc2FwcCIsImEiOiJja2J0ajRtNzMwOHBnMnNvNnM3Ymw5MnJzIn0.fsTNczOFZG8Ik3EtO9LdNQ';
 
+    var detailMap = new mapboxgl.Map({
+               container: 'SVIMapFrame',
+        
+            style:"mapbox://styles/c4sr-gsapp/ckc94kpjp37181iqfpnnowouc",//newest
+                zoom: 5,
+               center: [-147.653,63.739]
+           });
+           
+            detailMap.on("load",function(){
+                detailMap.resize()
+                d3.select("#SVIMap").style("display","none")
+                .style("top","0px")
+                
+            })
+            pub.SVIMap=detailMap
+}
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -462,11 +486,11 @@ function drawMap(data,outline){
 
         map.resize();
 
-
-        var geocoder = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl
-    });
+    //
+    //     var geocoder = new MapboxGeocoder({
+    //     accessToken: mapboxgl.accessToken,
+    //     mapboxgl: mapboxgl
+    // });
 //document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 
     map.addControl(new mapboxgl.NavigationControl(),'top-left');
@@ -535,10 +559,7 @@ function drawMap(data,outline){
         d3.selectAll("."+pub.coverage).style("background-color","#000").style("color","#fff")
         d3.selectAll("."+pub.strategy).style("background-color","#000").style("color","#fff")
         d3.selectAll("."+pub.strategy+"_radialS")//.style("background-color","#000").style("color","#fff")//.style("border","1px solid "+ highlightColor)
-          
      })
-
-    
      var popup = new mapboxgl.Popup({
          closeButton: false,
          closeOnClick: false
@@ -549,6 +570,18 @@ function drawMap(data,outline){
         d3.select("#mapPopup").append("div").attr("id","popLabel") 
       d3.select("#mapPopup").append("div").attr("id","popMap")
     
+    map.on('click', 'counties', function(e) {
+        var feature = e.features[0]
+        pub.SVIFIPS = feature.properties.FIPS
+        pub.sviZoom = 10
+        pub.SVIcenter = pub.centroids[feature.properties["FIPS"]]
+        pub.SVIMap.flyTo({
+            zoom:10,
+            center: [pub.SVIcenter.lng,pub.SVIcenter.lat]
+        })
+        d3.select("#SVIMap").style("display","block")
+        
+    })
      map.on('mousemove', 'counties', function(e) {
          var feature = e.features[0]
         //console.log(map.getZoom())
@@ -663,77 +696,18 @@ function drawMap(data,outline){
                  needsMetString = "Currently No Cases Reported"
              }
               d3.select("#popLabel").html(displayString+"<br><i>Click on county for more</i>")
-   //          var gradientSVG = d3.select("#popLabel").append("svg")
-   //      .attr("width",180).attr('height',40)
-   //           drawSmallMapKey(gradientSVG)
-             
-            // var coords = feature.geometry.coordinates[0][0]
-              var coords = pub.centroids[feature.properties["FIPS"]]
-              var formattedCoords =coords// {lat:coords[1],lng:coords[0]}
+            var coords = pub.centroids[feature.properties["FIPS"]]
+              var formattedCoords =coords
          }       
          
          map.on("mouseleave",'counties',function(){
              d3.select("#mapPopup").style("visibility","hidden")
-             
-             
          })  
-         
-         
-       //  console.log(countyId)
-        // console.log([formattedCoords.lat,formattedCoords.lng])
          var coordinates = geometry.coordinates[0]
-         
-         // var bounds = coordinates.reduce(function(bounds, coord) {
- //                 return bounds.extend(coord);
- //             }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
-             
-         // if(firstMove==true){
-//
-//              detailMap = new mapboxgl.Map({
-//                         container: 'popMap',
-//                         style: "mapbox://styles/c4sr-gsapp/ckc94kpjp37181iqfpnnowouc",
-//                         //style:"mapbox://styles/sidl/ckc4m2i9b0t931jl6o2wahxrp",
-//                         preserveDrawingBuffer: true,
-//                         interactive: false
-//
-//                     });
-//                              detailMap.fitBounds(bounds, {
-//                                  padding: 5,
-//                                  animate: false
-//                              })
-//                      firstMove=false
-//                     d3.select("#popMap").selectAll(".mapboxgl-control-container").remove()
-//
-//          }else{
-//
-//              detailMap.fitBounds(bounds, {
-//                  padding: 5,
-//                  animate: false
-//              })
-//
-//                      subMap(detailMap,formattedCoords,geometry,countyId)
-//          }
-         
-      
-
-     });
- 
-           
-      // map.on("move",function(){
- //              var zoom = map.getZoom();
- //              if(zoom<7){
- //                  d3.select("#layersMenu").style("display","none")
- //                  d3.select("#mapbox-satellite").style("opacity",.3)
- //                  //document.getElementById("tract_svi").disabled = true;
- //                  //document.getElementById("mapbox-satellite").disabled = true;
- //              }else{
- //                  d3.select("#layersMenu").style("display","block")
- //                  d3.select("#mapbox-satellite").style("opacity",1)
- //              }
- //          })    
-          
+              });
           return map
 }
+
 function drawSmallMapKey(svg){
     
     var defs = svg.append("defs");
