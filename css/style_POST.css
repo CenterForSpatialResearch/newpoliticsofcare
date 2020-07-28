@@ -271,7 +271,7 @@ select{
      margin:4px 10px 4px 10px;
  }
  .menu a{
-     font-size: 12px;
+     font-size: 6px;
      color: #000000;
      display: inline-block;
      text-decoration: none;
@@ -286,6 +286,14 @@ select{
      border:1px solid black;
      margin:0px 25px 8px 25px;
      padding:15px;
+ }
+ .strategyGridLabel{
+ }
+ #labelS{
+     border:1px solid black;
+     width:80px;
+     display:inline-block;
+     
  }
  #mapbox-satellite{
      background-color:rgba(0,0,0,0);
